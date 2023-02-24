@@ -7,7 +7,7 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 import networkx as nx
 import random
 import time
-import Beispiel1_schrittweise as bsp
+import Logik as bsp
 import copy as copy
 from PyQt5 import QtWidgets
 
@@ -33,7 +33,7 @@ class PrettyWidget(QWidget):
 
         self.setGeometry(100, 100, 800, 600)
         self.center()
-        self.setWindowTitle('S Plot')
+        self.setWindowTitle('Paarweises Tauschen')
 
         grid = QGridLayout()
         self.setLayout(grid)
@@ -78,11 +78,24 @@ class PrettyWidget(QWidget):
 
 
 
-    def Beispiel1(self):
+    def Beispiel2(self):
+        self.threadpool.start(self.thread_bsp2)
+
+    def thread_bsp2(self):
         self.figure.clf()
+        self.Graph = nx.Graph()
+        self.Graph.add_weighted_edges_from([(4, 2, 3), (4, 3, 8), (4, 1, 13), (4, 5, 16), (4, 6, 13), (4, 7, 14), (2, 3, 5), (2, 1, 10), (2, 5, 13), (2, 6, 10), (2, 7, 11), (3, 1, 5), (3, 5, 8), (3, 6, 15), (3, 7, 17), (1, 5, 3), (1, 6, 10), (1, 7, 11), (5, 6, 13), (5, 7, 14), (6, 7, 2)])
+        self.Graph.nodes(data=True)
+        self.startSolution = [1, 2]
+
+        self.Loesung = bsp.BspGraph(self.Graph, self.startSolution, self.figure, self.canvas)
+
+        # self.Loesung.color_graph()
+        self.Loesung.drawGraph()
+
         self.canvas.draw_idle()
 
-    def Beispiel2(self):
+    def Beispiel1(self):
         # self.thread_bsp1()
         self.threadpool.start(self.thread_bsp1)
 
